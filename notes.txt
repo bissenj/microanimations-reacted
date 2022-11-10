@@ -1,0 +1,7 @@
+
+cd C:\Users\Bash Warrior King\Projects\CRA\microanimations-reacted
+
+npm run start
+
+
+

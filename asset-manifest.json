@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/microanimations-reacted/static/css/main.073c9b0a.css",
+    "main.js": "/microanimations-reacted/static/js/main.0e181b97.js",
+    "static/js/787.3a75c296.chunk.js": "/microanimations-reacted/static/js/787.3a75c296.chunk.js",
+    "static/media/logo.svg": "/microanimations-reacted/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/microanimations-reacted/index.html",
+    "main.073c9b0a.css.map": "/microanimations-reacted/static/css/main.073c9b0a.css.map",
+    "main.0e181b97.js.map": "/microanimations-reacted/static/js/main.0e181b97.js.map",
+    "787.3a75c296.chunk.js.map": "/microanimations-reacted/static/js/787.3a75c296.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.073c9b0a.css",
+    "static/js/main.0e181b97.js"
+  ]
+}

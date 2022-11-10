@@ -1,24 +1,31 @@
 import logo from './logo.svg';
 import './App.css';
 
+import { useState } from 'react';
+
+import ControlGrid from './modules/common/components/controlgrid/';
+import IndexControl from './modules/common/components/indexcontrol/';
+
 function App() {
+
+  // STATE
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  // CALL BACKS
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>This is a new project.</p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <header className="App-header"> 
+
+        <p>Control Box and Horizontal Slider Demo - {selectedIndex}</p>
+        <hr style={{'width':'70%'}}></hr>              
+        
+        <ControlGrid quantity={4} index={selectedIndex} updateSelectedIndex={setSelectedIndex}/>
+
+        <IndexControl index={selectedIndex} updateSelectedIndex={setSelectedIndex}/>
+
+      </header>      
     </div>
   );
 }

@@ -7,7 +7,7 @@ const borderBox = {
     // width: '60px',
     // height: '60px',
     // backgroundColor: 'white',
-    minWidth: '100px',
+    minWidth: '200px',
     padding: '20px',
     marginTop: '20px',
     display: 'flex',

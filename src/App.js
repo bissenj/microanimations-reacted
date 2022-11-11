@@ -5,6 +5,14 @@ import { useState } from 'react';
 
 import ControlGrid from './modules/common/components/controlgrid/';
 import IndexControl from './modules/common/components/indexcontrol/';
+import HorizontalSlider from './modules/common/components/horizontalSlider/HorizontalSlider';
+
+const container = {
+  width: '70%',
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100%'
+}
 
 function App() {
 
@@ -21,7 +29,10 @@ function App() {
         <p>Control Box and Horizontal Slider Demo - {selectedIndex}</p>
         <hr style={{'width':'70%'}}></hr>              
         
-        <ControlGrid quantity={4} index={selectedIndex} updateSelectedIndex={setSelectedIndex}/>
+        <div style={container}>
+          <ControlGrid quantity={4} index={selectedIndex} updateSelectedIndex={setSelectedIndex}/>
+          <HorizontalSlider index={selectedIndex} />
+        </div>
 
         <IndexControl index={selectedIndex} updateSelectedIndex={setSelectedIndex}/>
 

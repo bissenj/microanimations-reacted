@@ -31,7 +31,7 @@ function App() {
         
         <div style={container}>
           <ControlGrid quantity={4} index={selectedIndex} updateSelectedIndex={setSelectedIndex}/>
-          <HorizontalSlider index={selectedIndex} />
+          <HorizontalSlider index={selectedIndex} updateSelectedIndex={setSelectedIndex} />
         </div>
 
         <IndexControl index={selectedIndex} updateSelectedIndex={setSelectedIndex}/>

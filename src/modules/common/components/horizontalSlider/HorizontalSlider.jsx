@@ -30,18 +30,14 @@ function HorizontalSlider({index, updateSelectedIndex}) {
     const prevTranslate = useRef(0);
     
     // Dragging variables
+    const animating = useRef(false);
     const dragging = useRef(false);
     const startPos = useRef(0);
     const animationRef = useRef(null);
 
-
-
-    const setPositionByIndex = useCallback((width = dimensions.width) => {
-        //console.log("setPositionByIndex: ", currentIndex.current, width);
+    const setPositionByIndex = useCallback((width = dimensions.width) => {  
         currentTranslate.current = currentIndex.current * -width;
         prevTranslate.current = currentTranslate.current;
-
-        //console.log("  -- currentTranslate: ", currentTranslate.current, "prev: ", prevTranslate.current);
 
         setSliderPosition();
     }, [dimensions.width]);
@@ -50,7 +46,7 @@ function HorizontalSlider({index, updateSelectedIndex}) {
     // USE EFFECT when index changes
     useEffect(() => {
         if (currentIndex.current !== index) {
-            //console.log("Do stuff in use effect: ", index);
+            console.log("Do stuff in use effect: ", currentIndex.current, index);
             currentIndex.current = index;
             setPositionByIndex();
         }
@@ -59,11 +55,24 @@ function HorizontalSlider({index, updateSelectedIndex}) {
 
     // USE EFFECT for Event Handlers
     useEffect(() => {
-        window.addEventListener('keydown', handleKeyDown)
+        window.addEventListener('keydown', handleKeyDown);
+        window.addEventListener('resize', handleResize);
+
         return () => {
             window.removeEventListener('keydown', handleKeyDown)
+            window.removeEventListener('resize', handleResize);
         }
-    }, [])
+    }, []);
+
+
+    const handleResize = () => {
+        console.log("Handle Resize()");
+        if (sliderRef.current) {
+            const dim = getElementDimensions(sliderRef.current);
+            setDimensions(dim);
+            setPositionByIndex(dim.width);
+        }
+    }
 
 
     // Handle Key Down
@@ -71,12 +80,14 @@ function HorizontalSlider({index, updateSelectedIndex}) {
         //console.log("handleKeyDown", key);
         //const arrowsPressed = ['ArrowRight', 'ArrowLeft'].includes(key);
 
-        if (key === 'ArrowRight') {
-            updateSelectedIndex(currentIndex.current += 1);             
-        }
+        if (!animating.current && !dragging.current) {
+            if (key === 'ArrowRight') {
+                updateSelectedIndex(currentIndex.current + 1);             
+            }
 
-        if (key === 'ArrowLeft') {
-            updateSelectedIndex(currentIndex.current -= 1);           
+            if (key === 'ArrowLeft') {
+                updateSelectedIndex(currentIndex.current - 1);           
+            }
         }
     }
 
@@ -88,12 +99,25 @@ function HorizontalSlider({index, updateSelectedIndex}) {
     // Handle drag start
     function handleDragStart(e) {
         console.log("Drag Start");
-        dragging.current = true;
-        startPos.current = e.pageX;
+        if (!animating.current) {
+            dragging.current = true;
+            startPos.current = e.pageX;
 
-        animationRef.current = requestAnimationFrame(animation);
+            //const currentPosition = e.pageX;
+            //currentTranslate.current = prevTranslate.current + currentPosition - startPos.current;
+
+            animationRef.current = requestAnimationFrame(animation);
+        }
+        else {
+            console.log("Nope - currently animating");
+        }
     }
 
+    // Handle Transition End
+    function handleTransitionEnd(e) {
+        //console.log("Handle Transition End: ");
+        //animating.current = false;
+    }
 
      // Handle drag end
      function handleDragEnd(e) {
@@ -112,15 +136,24 @@ function HorizontalSlider({index, updateSelectedIndex}) {
         }
         setPositionByIndex();
 
+        animating.current = true;
     }
 
     // Handle drag move
     function handleDragMove(e) {
         if (dragging.current) {
-            console.log("Drag Move");
+            console.log("Drag Move", e.buttons);
 
             const currentPosition = e.pageX;
             currentTranslate.current = prevTranslate.current + currentPosition - startPos.current;
+
+            // Handle crazy mouse clicking which loses the mouse down
+            if (e.buttons === 0) {                 
+                handleDragEnd(e);
+                updateSelectedIndex(currentIndex.current);
+
+                console.log("Bailing - Lost control of the mouse.");
+            } 
         }
     }
 
@@ -143,8 +176,14 @@ function HorizontalSlider({index, updateSelectedIndex}) {
     function setSliderPosition() {
         if (!sliderRef.current) return;  // bail if no reference   
 
-        sliderRef.current.style.transform = `translateX(${currentTranslate.current}px)`;
-        //console.log("Set slider position: ", currentTranslate.current);
+        console.log("setSliderPosition: ", currentTranslate.current, prevTranslate.current);
+
+        sliderRef.current.style.transform = `translateX(${currentTranslate.current}px)`;        
+
+        animating.current = true;
+        window.setTimeout(() => {
+            animating.current = false;
+        }, 300);
     }
 
 
@@ -163,6 +202,7 @@ function HorizontalSlider({index, updateSelectedIndex}) {
                     ref={sliderRef} 
                     className='slide-group animating' 
                     style={{ transform: `translateX(-${index * 100}%)` }}
+                    onTransitionEnd={handleTransitionEnd}
                     onPointerDown={handleDragStart}
                     onPointerUp={handleDragEnd}
                     onPointerMove={handleDragMove}
@@ -170,8 +210,7 @@ function HorizontalSlider({index, updateSelectedIndex}) {
                         console.log("Drag Leave");                                            
                         if (dragging.current) {
                             handleDragEnd();                            
-                        }
-                        
+                        }                        
                     }}
                 >
                 

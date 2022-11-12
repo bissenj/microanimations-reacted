@@ -54,8 +54,8 @@ function HorizontalSlider({index, updateSelectedIndex}) {
 
 
     // USE EFFECT for Event Handlers
-    useEffect(() => {
-        window.addEventListener('keydown', handleKeyDown);
+    useEffect(() => {        
+        //window.addEventListener('keydown', handleKeyDown);
         window.addEventListener('resize', handleResize);
 
         return () => {
@@ -77,7 +77,7 @@ function HorizontalSlider({index, updateSelectedIndex}) {
 
     // Handle Key Down
     const handleKeyDown = ({key}) => {
-        //console.log("handleKeyDown", key);
+        console.log("handleKeyDown", key);
         //const arrowsPressed = ['ArrowRight', 'ArrowLeft'].includes(key);
 
         if (!animating.current && !dragging.current) {
@@ -195,13 +195,13 @@ function HorizontalSlider({index, updateSelectedIndex}) {
     
     
     return (
-        <div className='photoSlider' tabIndex={0} data-index={index}>
+        <div className='photoSlider' tabIndex={0} onKeyDown={handleKeyDown}>
             <div className='slide-viewer'>
                 {/* <div ref={sliderRef} className='slide-group animating' style={{ transform: `translateX(-${index * 100}%)` }}> */}
                 <div 
                     ref={sliderRef} 
                     className='slide-group animating' 
-                    style={{ transform: `translateX(-${index * 100}%)` }}
+                    style={{ transform: `translateX(-${index * 100}%)` }}                    
                     onTransitionEnd={handleTransitionEnd}
                     onPointerDown={handleDragStart}
                     onPointerUp={handleDragEnd}
@@ -214,10 +214,16 @@ function HorizontalSlider({index, updateSelectedIndex}) {
                     }}
                 >
                 
-                    {data.map((item, index) => {
-                        return (<div key={index} className='slide flex-center' style={{backgroundColor: item.background}}
+                    {data.map((item, _index) => {
+                        console.log("Render Slides: ", currentIndex.current, index);
+                        let classes = 'slide flex-center hide-content';
+                        if (index === _index) classes = 'slide flex-center';
+
+                        return (<div key={_index} className={classes} style={{backgroundColor: item.background}}
                                     data-id={item.id}> 
-                                        {item.text} 
+                                        <span>
+                                            {item.text} 
+                                        </span>
                                 </div>);
                     })}
 

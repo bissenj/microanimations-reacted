@@ -23,16 +23,13 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 function App() {
 
   return (
-    <>
-      <h2>App</h2>
+    <>      
       <Router>
-        <Routes>
-          {/* <Route path="/"> */}
-            <Route path="/microanimations-reacted" element={<HomePage />} />
-            {/* <Route path="/" index element={<div>This is the home page</div>} /> */}
+        <Routes>          
+            <Route path="/" element={<HomePage />} />
+            <Route path="/microanimations-reacted" element={<HomePage />} />            
             <Route path="/slider" element={<HorizontalSliderPage/>} />
-            <Route path="/webworker" element={<WebWorkerPage/>} />
-          {/* </Route> */}
+            <Route path="/webworker" element={<WebWorkerPage/>} />          
         </Routes>
       </Router>
     </>

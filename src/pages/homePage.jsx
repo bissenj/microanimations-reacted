@@ -10,6 +10,9 @@ export default function HomePage() {
 
                 {/* Web Workers */}
                 <li><a href='webWorker'>Web Workers</a></li>
+
+                {/* Toasts */}
+                <li><a href='toast'>Toasts</a></li>
             </ul> 
         </div>
     );

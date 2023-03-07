@@ -6,6 +6,7 @@ import './App.css';
 import HomePage from "./pages/homePage";
 import HorizontalSliderPage from "./pages/horizontalSliderPage";
 import WebWorkerPage from "./pages/webWorkerPage";
+import ToastPage from "./pages/toastPage";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -30,6 +31,7 @@ function App() {
             <Route path="/microanimations-reacted" element={<HomePage />} />            
             <Route path="/slider" element={<HorizontalSliderPage/>} />
             <Route path="/webworker" element={<WebWorkerPage/>} />          
+            <Route path="/toast" element={<ToastPage/>} />          
         </Routes>
       </Router>
     </>
